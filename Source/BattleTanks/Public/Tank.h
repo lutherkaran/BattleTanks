@@ -3,8 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TankAimComponent.h"
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
+
+class UTankBarrel;
 
 UCLASS()
 class BATTLETANKS_API ATank : public APawn
@@ -14,12 +17,20 @@ class BATTLETANKS_API ATank : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ATank();
+	void AimAt(FVector Location);
+	UTankAimComponent* AimComponent;
+
+	UFUNCTION(BlueprintCallable, Category = SetupBarrel)
+		void SetupBarrel(UTankBarrel* _Barrel);
+
+	UPROPERTY(EditAnywhere, Category = Firing)
+		float LaunchSpeed = 100000.f;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 

@@ -13,15 +13,15 @@ UTankAimComponent::UTankAimComponent()
 
 	// ...
 }
-void UTankAimComponent::SetupBarrel(UTankBarrel* _Barrel)
+void UTankAimComponent::SetupBarrel(UTankBarrel* TankBarrel)
 {
-	this->Barrel = _Barrel;
+	this->Barrel = TankBarrel;
 }
 void UTankAimComponent::AimAt(FVector HitLocation, float _LaunchSpeed)
 {
 	if (!Barrel) { return; }
 
-	FVector OutVelocity;
+	FVector OutVelocity = FVector(0);
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 	bool bHaveProjectileVelocity = UGameplayStatics::SuggestProjectileVelocity(this, OutVelocity, StartLocation, HitLocation, _LaunchSpeed, false, 0, 0, ESuggestProjVelocityTraceOption::DoNotTrace);
 	if (bHaveProjectileVelocity)
@@ -30,18 +30,14 @@ void UTankAimComponent::AimAt(FVector HitLocation, float _LaunchSpeed)
 		//UE_LOG(LogTemp, Warning, TEXT("Aiming at %s"), *AimDirection.ToString())
 		MoveBarrelTowards(AimDirection);
 	}
-	//auto TankName = GetOwner()->GetName();
-		//auto BarrelLocation = Barrel->GetComponentLocation();
-		//UE_LOG(LogTemp, Warning, TEXT("%s AIMS AT LOCATION %s FROM %s"), *TankName, *Location.ToString(), *BarrelLocation.ToString())
-
-
 }
+
 void UTankAimComponent::MoveBarrelTowards(FVector _AimDirection)
 {
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = _AimDirection.Rotation();
 	auto DeltaRotator = BarrelRotator - AimAsRotator;
-	Barrel->Elevate(5);
+	Barrel->Elevate(DeltaRotator.Pitch);
 	//UE_LOG(LogTemp, Warning, TEXT("%s"), *DeltaRotator.ToString())
 }
 // Called when the game starts

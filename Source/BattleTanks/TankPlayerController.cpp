@@ -1,14 +1,15 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
+#include "Tank.h"
 #include "TankPlayerController.h"
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	auto ControlledTank = GetControlledTank();
-	if (!ControlledTank) {
-		UE_LOG(LogTemp, Warning, TEXT("NO PLAYER CONTROLLED TANK FOUND"))
+	auto PlayerControlledTank = GetControlledTank();
+	if (!PlayerControlledTank) {
+		UE_LOG(LogTemp, Warning, TEXT("PLAYER COUDN'T BE FOUND: *s"))
 	}
 }
 void ATankPlayerController::Tick(float _deltatime) {
@@ -21,15 +22,14 @@ void ATankPlayerController::AimTowardsCrossahir()
 	FVector HitLocation;
 	if (GetSightRayHitLocation(HitLocation))
 	{
-		GetControlledTank()->AimAt(HitLocation);
+		GetControlledTank()->AimAt (HitLocation);
 		//UE_LOG(LogTemp, Warning, TEXT("HIT AT: %s"), *HitLocation.ToString())
-			//UE_LOG(LogTemp, Warning, TEXT("HIT AT: %s"), *hitLocation.ToString())
 	}
 }
 
 bool ATankPlayerController::GetSightRayHitLocation(OUT FVector& HitLocation) const
 {
-	//Find crosshair position
+	//Find crosshair position in px coordinates
 	int32 ViewPortSizeX, ViewPortSizeY;
 	GetViewportSize(ViewPortSizeX, ViewPortSizeY);
 	auto ScreenLocation = FVector2D(CrosshairXLocation * ViewPortSizeX, CrosshairYLocation * ViewPortSizeY);

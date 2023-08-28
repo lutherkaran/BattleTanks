@@ -7,6 +7,7 @@
 #include "Tank.generated.h"
 
 class UTankBarrel;
+class UTankTurret;
 class UTankAimComponent;
 
 UCLASS()
@@ -20,11 +21,17 @@ public:
 	void AimAt(FVector Location);
 	UTankAimComponent* AimComponent;
 
+	UFUNCTION(BlueprintCallable)
+		void Fire();
+
 	UFUNCTION(BlueprintCallable, Category = SetupBarrel)
 		void SetupBarrel(UTankBarrel* TankBarrel);
 
+	UFUNCTION(BlueprintCallable, Category = SetupTurret)
+		void SetupTurret(UTankTurret* TankTurret);
+
 	UPROPERTY(EditAnywhere, Category = Firing)
-		float LaunchSpeed = 100000.f;
+		float LaunchSpeed = 4000.f;
 
 protected:
 	// Called when the game starts or when spawned

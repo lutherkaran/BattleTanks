@@ -19,8 +19,6 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float _deltaTime) override;
 
-	ATank* GetAIControlledTank() const;
-	ATank* GetPlayerControlledTank() const;
 
 	ATank* AIControlledTank;
 	ATank* PlayerControlledTank;

@@ -16,6 +16,8 @@ void ATankAIController::Tick(float _deltaTime)
 
 	if (PlayerControlledTank)
 	{
+		MoveToActor(PlayerControlledTank, AcceptanceRadius);
+
 		AIControlledTank->AimAt(PlayerControlledTank->GetActorLocation());
 		AIControlledTank->Fire();
 		//UE_LOG(LogTemp, Warning, TEXT("PLAYER FOUND AT: %s"), *(PlayerControlledTank->GetActorLocation().ToString()))

@@ -42,8 +42,6 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	UTankBarrel* Barrel = nullptr;
 	
 	float LastFireTIme = 0;
 
@@ -53,6 +51,8 @@ protected:
 
 	UTankAimComponent* AimComponent;
 
-	UPROPERTY(BlueprintReadOnly)
-		UTankMovementComponent* TankMovementComponent;
+	UTankBarrel* Barrel = nullptr;
+
+	/*UPROPERTY(BlueprintReadOnly)
+		UTankMovementComponent* TankMovementComponent;*/
 };

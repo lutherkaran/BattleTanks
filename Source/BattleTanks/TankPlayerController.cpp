@@ -8,9 +8,6 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	auto PlayerControlledTank = GetControlledTank();
-	if (!PlayerControlledTank) {
-		UE_LOG(LogTemp, Warning, TEXT("PLAYER COUDN'T BE FOUND: *s"))
-	}
 }
 void ATankPlayerController::Tick(float _deltatime) {
 	Super::Tick(_deltatime);

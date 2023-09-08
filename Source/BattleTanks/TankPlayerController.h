@@ -9,7 +9,7 @@
 /**
  *
  */
-class ATank;
+
 UCLASS()
 class BATTLETANKS_API ATankPlayerController : public APlayerController
 {
@@ -19,8 +19,6 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float _deltatime) override;
 
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-		ATank* GetControlledTank() const;
 private:
 	void AimTowardsCrossahir();
 	bool GetSightRayHitLocation(OUT FVector& hitLocation) const;

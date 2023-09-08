@@ -9,7 +9,6 @@
 /**
  *
  */
-class ATank;
 
 UCLASS()
 class BATTLETANKS_API ATankAIController : public AAIController
@@ -20,8 +19,4 @@ public:
 	virtual void Tick(float _deltaTime) override;
 
 	float AcceptanceRadius = 300;
-
-	ATank* AIControlledTank;
-	ATank* PlayerControlledTank;
-
 };

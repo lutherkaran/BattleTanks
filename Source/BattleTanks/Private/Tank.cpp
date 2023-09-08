@@ -1,7 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "TankAimComponent.h"
-#include "TankMovementComponent.h"
 #include "TankBarrel.h"
 #include "TankTurret.h"
 #include "Projectile.h"
@@ -15,13 +13,6 @@ ATank::ATank()
 	//AimComponent = CreateDefaultSubobject<UTankAimComponent>(FName("Aiming Component"));
 	//TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Movement Component"));
 }
-
-void ATank::AimAt(FVector Location)
-{
-	if (!ensure(AimComponent)) return;
-	AimComponent->AimAt(Location, LaunchSpeed);
-}
-
 void ATank::Fire()
 {
 	if (!ensure(Barrel)) return;

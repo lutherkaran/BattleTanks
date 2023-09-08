@@ -8,9 +8,7 @@
 
 class UTankBarrel;
 class UTankTurret;
-class UTankAimComponent;
 class AProjectile;
-class UTankMovementComponent;
 
 UCLASS()
 class BATTLETANKS_API ATank : public APawn
@@ -20,13 +18,9 @@ class BATTLETANKS_API ATank : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ATank();
-	void AimAt(FVector Location);
 
 	UFUNCTION(BlueprintCallable)
 		void Fire();
-
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
-		float LaunchSpeed = 4000.f;
 
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 		float ReloadTimeInSeconds = 3;
@@ -36,14 +30,10 @@ public:
 	
 	float LastFireTIme = 0;
 
-protected:
-	UPROPERTY(BlueprintReadOnly)
-		UTankAimComponent* AimComponent;
-
 	UTankBarrel* Barrel = nullptr; // TODO Remove
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+		float LaunchSpeed = 4000.f;
 
-	/*UPROPERTY(BlueprintReadOnly)
-		UTankMovementComponent* TankMovementComponent;*/
 private:
 	virtual void BeginPlay() override;
 };

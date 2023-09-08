@@ -7,6 +7,14 @@
 #include "Components/ActorComponent.h"
 #include "TankAimComponent.generated.h"
 
+UENUM()
+enum class EFiringStatus : uint8 {
+
+	Locked UMETA(DisplayName = "Locked"),
+	Aiming UMETA(DisplayName = "Aiming"),
+	Reloading UMETA(DisplayName = "Firing"),
+};
+
 class UTankBarrel; //Forward Declaration
 class UTankTurret;
 
@@ -19,21 +27,25 @@ class BATTLETANKS_API UTankAimComponent : public UActorComponent
 public:
 	// Sets default values for this component's properties
 	UTankAimComponent();
-	
-	void SetupBarrel(UTankBarrel* _Barrel);
-	void SetupTurret(UTankTurret* Turret);
 
 	void AimAt(FVector Location, float _LaunchSpeed);
 	void MoveBarrelTowards(FVector _AimDirection);
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
 
-public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
+
+	UPROPERTY(BlueprintReadOnly, Category = "State")
+		EFiringStatus FiringState = EFiringStatus::Locked;
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+		void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
+
+protected:
+	// Called when the game starts
+	virtual void BeginPlay() override;
+
 };

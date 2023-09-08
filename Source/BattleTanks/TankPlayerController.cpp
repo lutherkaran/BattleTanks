@@ -2,12 +2,22 @@
 
 
 #include "Tank.h"
+#include<TankAimComponent.h>
 #include "TankPlayerController.h"
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	
 	auto PlayerControlledTank = GetControlledTank();
+	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimComponent>();
+
+	if (ensure(AimingComponent)) {
+		FoundAimingComponent(AimingComponent);
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("Player Controller Can't Find AimingComponent"))
+	}
 }
 void ATankPlayerController::Tick(float _deltatime) {
 	Super::Tick(_deltatime);
@@ -15,11 +25,11 @@ void ATankPlayerController::Tick(float _deltatime) {
 }
 void ATankPlayerController::AimTowardsCrossahir()
 {
-	if (!GetControlledTank()) { return; }
+	if (!ensure(GetControlledTank())) { return; }
 	FVector HitLocation;
 	if (GetSightRayHitLocation(HitLocation))
 	{
-		GetControlledTank()->AimAt (HitLocation);
+		GetControlledTank()->AimAt(HitLocation);
 		//UE_LOG(LogTemp, Warning, TEXT("HIT AT: %s"), *HitLocation.ToString())
 	}
 }

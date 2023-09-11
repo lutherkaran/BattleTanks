@@ -40,7 +40,7 @@ public:
 	UTankTurret* Turret = nullptr;
 
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-		EFiringStatus FiringState = EFiringStatus::Locked;
+		EFiringStatus FiringState = EFiringStatus::Reloading;
 
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 		float LaunchSpeed = 4000.f;
@@ -52,13 +52,15 @@ public:
 	TSubclassOf<AProjectile> ProjectileBlueprint; /*specific to projectil blueprint reference */ //UClass* ProjectileBlueprint // all classes; 
 
 	float LastFireTIme = 0;
-	
+
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 		void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
 	UFUNCTION(BlueprintCallable)
 		void Fire();
+	bool isBarrelMoving();
 
+	FVector AimDirection = FVector(0);
 
 protected:
 	// Called when the game starts

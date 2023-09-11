@@ -22,6 +22,7 @@ void ATankPlayerController::Tick(float _deltatime) {
 }
 void ATankPlayerController::AimTowardsCrossahir()
 {
+	if (!GetPawn()) return; // if not possessing
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimComponent>();
 
 	if (!ensure(AimingComponent)) return;

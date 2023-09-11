@@ -2,6 +2,7 @@
 
 
 #include "TankAimComponent.h"
+#include "Projectile.h"
 #include "TankTurret.h"
 #include "TankBarrel.h"
 
@@ -14,6 +15,7 @@ UTankAimComponent::UTankAimComponent()
 
 	// ...
 }
+
 void UTankAimComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
 {
 	Barrel = BarrelToSet;
@@ -33,6 +35,17 @@ void UTankAimComponent::AimAt(FVector HitLocation)
 		auto AimDirection = OutVelocity.GetSafeNormal();
 		//UE_LOG(LogTemp, Warning, TEXT("Aiming at %s"), *AimDirection.ToString())
 		MoveBarrelTowards(AimDirection);
+	}
+}
+
+void UTankAimComponent::Fire()
+{
+	if (!ensure(Barrel && ProjectileBlueprint)) return;
+	bool isReloded = (FPlatformTime::Seconds() - LastFireTIme) > ReloadTimeInSeconds;
+	if (isReloded) {
+		auto projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
+		projectile->LaunchProjectile(LaunchSpeed);
+		LastFireTIme = FPlatformTime::Seconds();
 	}
 }
 

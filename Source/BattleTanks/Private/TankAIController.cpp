@@ -20,7 +20,9 @@ void ATankAIController::Tick(float _deltaTime)
 		auto AimComponent = AIControlledTank->FindComponentByClass<UTankAimComponent>();
 		if (!ensure(AimComponent)) { return; }
 		AimComponent->AimAt(PlayerControlledTank->GetActorLocation());
-		AimComponent->Fire();
+
+		if (AimComponent->GetFiringState() == EFiringStatus::Locked)
+			AimComponent->Fire();
 
 		//UE_LOG(LogTemp, Warning, TEXT("PLAYER FOUND AT: %s"), *(PlayerControlledTank->GetActorLocation().ToString()))
 	}

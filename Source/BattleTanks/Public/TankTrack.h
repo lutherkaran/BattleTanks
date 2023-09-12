@@ -17,14 +17,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Input)
 		void SetThrottle(float Throttle);
 
+	void DriveTrack();
+	float CurrentThrottle = 0;
+
 	UPROPERTY(EditDefaultsOnly)
 		float MaxDrivingForce = 400000;
 
 private:
 	UTankTrack();
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void BeginPlay() override;
-
+	void ApplySideWaysForce();
 	UFUNCTION()
 		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 };

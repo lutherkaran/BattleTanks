@@ -16,6 +16,11 @@ UTankAimComponent::UTankAimComponent()
 	// ...
 }
 
+int UTankAimComponent::GetRoundsLeft() const
+{
+	return RoundsLeft;
+}
+
 // Called when the game starts
 void UTankAimComponent::BeginPlay()
 {
@@ -28,7 +33,11 @@ void UTankAimComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if ((FPlatformTime::Seconds() - LastFireTIme) < ReloadTimeInSeconds) {
+	if (RoundsLeft == 0) {
+		FiringState = EFiringStatus::OutOfAmmo;
+	}
+
+	else if ((FPlatformTime::Seconds() - LastFireTIme) < ReloadTimeInSeconds) {
 		FiringState = EFiringStatus::Reloading;
 	}
 	else if (isBarrelMoving()) {
@@ -38,6 +47,11 @@ void UTankAimComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 	else {
 		FiringState = EFiringStatus::Locked;
 	}
+}
+
+EFiringStatus UTankAimComponent::GetFiringState() const
+{
+	return FiringState;
 }
 
 void UTankAimComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
@@ -64,13 +78,14 @@ void UTankAimComponent::AimAt(FVector HitLocation)
 
 void UTankAimComponent::Fire()
 {
-	if (FiringState != EFiringStatus::Reloading) {
+	if (FiringState == EFiringStatus::Locked || FiringState == EFiringStatus::Aiming) {
 		if (!ensure(Barrel)) return;
 		if (!ensure(ProjectileBlueprint)) return;
 		{
 			auto projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")), Barrel->GetSocketRotation(FName("Projectile")));
 			projectile->LaunchProjectile(LaunchSpeed);
 			LastFireTIme = FPlatformTime::Seconds();
+			RoundsLeft--;
 		}
 	}
 }
@@ -78,13 +93,23 @@ void UTankAimComponent::Fire()
 void UTankAimComponent::MoveBarrelTowards(FVector _AimDirection)
 {
 	if (!ensure(Barrel || Turret)) return;
+
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = _AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
 
 	Barrel->Elevate(DeltaRotator.Pitch);
 
-	Turret->Rotate(DeltaRotator.Yaw);
+	// Always yaw the shortest way
+	if (FMath::Abs(DeltaRotator.Yaw) < 180)
+	{
+		Turret->Rotate(DeltaRotator.Yaw);
+	}
+	// Avoid going at the wrong direction
+	else
+	{
+		Turret->Rotate(-DeltaRotator.Yaw);
+	}
 
 	//UE_LOG(LogTemp, Warning, TEXT("%s"), *DeltaRotator.ToString())
 }

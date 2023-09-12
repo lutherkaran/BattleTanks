@@ -24,12 +24,12 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 	auto MoveDirection = MoveVelocity.GetSafeNormal();
 
 	//UE_LOG(LogTemp, Warning, TEXT("%s Move Direction"), *MoveDirection.ToString());
-	UE_VLOG(this, LogTemp, Warning, TEXT("%s Move Direction"), *MoveDirection.ToString());
+	//UE_VLOG(this, LogTemp, Warning, TEXT("%s Move Direction"), *MoveDirection.ToString());
 	auto ForwardThrow = FVector::DotProduct(TankForward, MoveDirection);
 	IntendMoveForward(ForwardThrow);
 
-	auto RightThrow = FVector::CrossProduct(TankForward, MoveDirection);
-	IntendMoveRight(RightThrow.Z);
+	auto RightThrow = FVector::CrossProduct(TankForward, MoveDirection).Z;
+	IntendMoveRight(RightThrow);
 }
 
 void UTankMovementComponent::Initialize(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet)

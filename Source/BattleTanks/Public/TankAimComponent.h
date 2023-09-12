@@ -13,6 +13,7 @@ enum class EFiringStatus : uint8 {
 	Locked UMETA(DisplayName = "Locked"),
 	Aiming UMETA(DisplayName = "Aiming"),
 	Reloading UMETA(DisplayName = "Firing"),
+	OutOfAmmo UMETA(DisplayName = "OutOfAmmo")
 };
 
 class UTankBarrel; //Forward Declaration
@@ -42,6 +43,8 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 		EFiringStatus FiringState = EFiringStatus::Reloading;
 
+	EFiringStatus GetFiringState() const;
+
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 		float LaunchSpeed = 4000.f;
 
@@ -61,6 +64,10 @@ public:
 	bool isBarrelMoving();
 
 	FVector AimDirection = FVector(0);
+	int RoundsLeft = 3;
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+		int GetRoundsLeft() const;
 
 protected:
 	// Called when the game starts

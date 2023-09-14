@@ -29,8 +29,8 @@ class BATTLETANKS_API UTankAimComponent : public UActorComponent
 public:
 	// Sets default values for this component's properties
 	UTankAimComponent();
-	void AimAt(FVector HitLocation);
 
+	void AimAt(FVector HitLocation);
 	void MoveBarrelTowards(FVector _AimDirection);
 
 
@@ -48,11 +48,11 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 		float LaunchSpeed = 4000.f;
 
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
-		float ReloadTimeInSeconds = 3;
+	UPROPERTY(EditAnywhere, Category = Firing)
+		float ReloadTimeInSeconds = .5f;
 
 	UPROPERTY(EditDefaultsOnly, Category = Setup);
-	TSubclassOf<AProjectile> ProjectileBlueprint; /*specific to projectil blueprint reference */ //UClass* ProjectileBlueprint // all classes; 
+	TSubclassOf<AProjectile> ProjectileBlueprint; /*specific to projectile blueprint reference */ //UClass* ProjectileBlueprint // all classes; 
 
 	float LastFireTIme = 0;
 
@@ -64,7 +64,9 @@ public:
 	bool isBarrelMoving();
 
 	FVector AimDirection = FVector(0);
-	int RoundsLeft = 3;
+
+	UPROPERTY(EditAnywhere, Category = "Firing")
+		int32 RoundsLeft = 100;
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 		int GetRoundsLeft() const;

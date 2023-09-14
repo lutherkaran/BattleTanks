@@ -19,6 +19,11 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float _deltatime) override;
 
+	void SetPawn(APawn* InPawn);
+
+	UFUNCTION()
+	void OnPossessedTankDeath();
+
 private:
 	void AimTowardsCrossahir();
 	bool GetSightRayHitLocation(OUT FVector& hitLocation) const;
@@ -35,4 +40,6 @@ private:
 protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 		void FoundAimingComponent(UTankAimComponent* AimComponentReference);
+
+
 };

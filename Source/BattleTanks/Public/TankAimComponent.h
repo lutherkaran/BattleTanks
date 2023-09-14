@@ -33,7 +33,6 @@ public:
 	void AimAt(FVector HitLocation);
 	void MoveBarrelTowards(FVector _AimDirection);
 
-
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
@@ -49,7 +48,7 @@ public:
 		float LaunchSpeed = 4000.f;
 
 	UPROPERTY(EditAnywhere, Category = Firing)
-		float ReloadTimeInSeconds = .5f;
+		float ReloadTimeInSeconds = 1f;
 
 	UPROPERTY(EditDefaultsOnly, Category = Setup);
 	TSubclassOf<AProjectile> ProjectileBlueprint; /*specific to projectile blueprint reference */ //UClass* ProjectileBlueprint // all classes; 
@@ -66,7 +65,7 @@ public:
 	FVector AimDirection = FVector(0);
 
 	UPROPERTY(EditAnywhere, Category = "Firing")
-		int32 RoundsLeft = 100;
+		int32 RoundsLeft = 25;
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 		int GetRoundsLeft() const;

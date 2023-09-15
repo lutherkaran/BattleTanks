@@ -44,7 +44,8 @@ void UTankAimComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 
 		FiringState = EFiringStatus::Aiming;
 	}
-	else {
+	else 
+	{
 		FiringState = EFiringStatus::Locked;
 	}
 }

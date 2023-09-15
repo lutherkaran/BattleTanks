@@ -15,7 +15,7 @@ void ATankAIController::Tick(float _deltaTime)
 	auto PlayerControlledTank = (GetWorld()->GetFirstPlayerController()->GetPawn());
 	auto AIControlledTank = (GetPawn());
 
-	if (!ensure(PlayerControlledTank && AIControlledTank)) return;
+	if (!(PlayerControlledTank && AIControlledTank)) return;
 	{
 		MoveToActor(PlayerControlledTank, AcceptanceRadius);
 		auto AimComponent = AIControlledTank->FindComponentByClass<UTankAimComponent>();

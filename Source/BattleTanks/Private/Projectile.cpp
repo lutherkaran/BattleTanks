@@ -2,6 +2,7 @@
 
 
 #include <Kismet/GameplayStatics.h>
+#include "GameFramework/DamageType.h"
 #include "Projectile.h"
 
 // Sets default values

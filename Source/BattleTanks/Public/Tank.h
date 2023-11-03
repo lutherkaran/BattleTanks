@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "TankAimComponent.h"
 #include "Tank.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
@@ -29,6 +30,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 		int32 StartingHealth = 100;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		TSubclassOf<class UTankAimcomponent> AimComponent;
 
 	UPROPERTY(VisibleAnywhere, Category = "Health")
 		int32 CurrentHealth;

@@ -7,9 +7,9 @@
 #include "Tank.h"
 #include "Tests/AutomationEditorCommon.h"
 
-IMPLEMENT_SIMPLE_AUTOMATION_TEST(FSpawnPlayerAim, "Gameplay.Aim.Player.Spawn Player", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::CriticalPriority | EAutomationTestFlags::ProductFilter)
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FSpawnPlayer, "Gameplay.Aim.Player.Spawn Player", EAutomationTestFlags::ApplicationContextMask | EAutomationTestFlags::CriticalPriority | EAutomationTestFlags::ProductFilter)
 
-bool FSpawnPlayerAim::RunTest(const FString& Params)
+bool FSpawnPlayer::RunTest(const FString& Params)
 {
 	UWorld* world = FAutomationEditorCommonUtils::CreateNewMap();
 	{

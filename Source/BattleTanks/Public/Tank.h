@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "TankAimComponent.h"
+#include "HealthComponent.h"
 #include "Tank.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
 
 UCLASS()
 class BATTLETANKS_API ATank : public APawn
@@ -16,24 +16,13 @@ class BATTLETANKS_API ATank : public APawn
 
 public:
 
-	//Called by the engine when actor damage is dealt
-	virtual float TakeDamage(float DamagerAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
+	UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Health")
+		class UHealthComponent* HealthComponent;
 
-	UFUNCTION(BlueprintPure, Category = "Health")
-		float GetHealthPercent() const;
-	FTankDelegate OnDeath;
+	FORCEINLINE UHealthComponent* GetHealthComponent() const { return HealthComponent; }
 
 private:
 	// Sets default values for this pawn's properties
 	ATank();
 	virtual void BeginPlay() override;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-		int32 StartingHealth = 100;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-		TSubclassOf<class UTankAimcomponent> AimComponent;
-
-	UPROPERTY(VisibleAnywhere, Category = "Health")
-		int32 CurrentHealth;
 };

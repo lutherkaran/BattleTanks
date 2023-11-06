@@ -1,13 +1,15 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "TankAIController.h"
 #include "TankAimComponent.h"
 #include "Tank.h"
-#include "TankAIController.h"
+#include "HealthComponent.h"
 
-void ATankAIController::BeginPlay() {
+void ATankAIController::BeginPlay() 
+{
 	Super::BeginPlay();
-
 }
+
 void ATankAIController::Tick(float _deltaTime)
 {
 	Super::Tick(_deltaTime);
@@ -26,7 +28,6 @@ void ATankAIController::Tick(float _deltaTime)
 		if (AimComponent->GetFiringState() == EFiringStatus::Locked) {
 			AimComponent->Fire();
 		}
-
 		//UE_LOG(LogTemp, Warning, TEXT("PLAYER FOUND AT: %s"), *(PlayerControlledTank->GetActorLocation().ToString()))
 	}
 }
@@ -34,11 +35,13 @@ void ATankAIController::Tick(float _deltaTime)
 void ATankAIController::SetPawn(APawn* InPawn)
 {
 	Super::SetPawn(InPawn);
-	if (InPawn) {
+	if (InPawn) 
+	{
 		auto PossessedTank = Cast<ATank>(InPawn);
 		if (!ensure(PossessedTank)) return;
-
-		PossessedTank->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnPossessedTankDeath);
+		if (!ensure(PossessedTank->GetHealthComponent())) return;
+		PossessedTank->GetHealthComponent()->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnPossessedTankDeath);
+		PossessedTank->GetHealthComponent()->IsAlive = false;
 	}
 }
 

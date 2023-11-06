@@ -2,9 +2,10 @@
 
 
 
-#include<TankAimComponent.h>
-#include"Tank.h"
 #include "TankPlayerController.h"
+#include"TankAimComponent.h"
+#include"Tank.h"
+#include "HealthComponent.h"
 
 void ATankPlayerController::BeginPlay()
 {
@@ -26,10 +27,13 @@ void ATankPlayerController::Tick(float _deltatime)
 void ATankPlayerController::SetPawn(APawn* InPawn)
 {
 	Super::SetPawn(InPawn);
-	if (InPawn) {
-		auto PosssessedTank = Cast<ATank>(InPawn);
-		if (!ensure(PosssessedTank)) return;
-		PosssessedTank->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnPossessedTankDeath);
+	if (InPawn)
+	{
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) return;
+		if (!ensure(PossessedTank->GetHealthComponent())) return;
+		PossessedTank->GetHealthComponent()->OnDeath.AddUniqueDynamic(this, &ATankPlayerController::OnPossessedTankDeath);
+		PossessedTank->GetHealthComponent()->IsAlive = false;
 	}
 }
 

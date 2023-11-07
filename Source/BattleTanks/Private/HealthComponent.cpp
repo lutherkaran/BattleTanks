@@ -6,30 +6,31 @@
 // Sets default values for this component's properties
 UHealthComponent::UHealthComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-	CurrentHealth = MaxHealth;
+	Initiailize();
+}
+
+bool UHealthComponent::Initiailize()
+{
+	CurrentHealth = Health;
 	IsAlive = true;
-	AActor* owner = GetOwner();
-	if (owner)
+	if (GetOwner())
 	{
-		owner->OnTakeAnyDamage.AddDynamic(this, &UHealthComponent::TakeDamage);
+		GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UHealthComponent::TakeDamage);
+		return true;
 	}
+	return false;
 
 }
 
-void UHealthComponent::BeginPlay() {
+void UHealthComponent::BeginPlay()
+{
 	Super::BeginPlay();
-
 }
 
 void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
 {
-	//int32 DamagePoints = FPlatformMath::RoundToInt(Damage);
-
 	DealDamage(Damage);
-	//return DamageToApply;
 }
 
 void UHealthComponent::DealDamage(float DamageAmount)
@@ -47,7 +48,7 @@ void UHealthComponent::DealDamage(float DamageAmount)
 
 float UHealthComponent::GetHealthPercent() const
 {
-	return (float)CurrentHealth / (float)MaxHealth;
+	return (float)CurrentHealth / (float)Health;
 }
 
 

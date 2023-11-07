@@ -41,7 +41,6 @@ void ATankAIController::SetPawn(APawn* InPawn)
 		if (!ensure(PossessedTank)) return;
 		if (!ensure(PossessedTank->GetHealthComponent())) return;
 		PossessedTank->GetHealthComponent()->OnDeath.AddUniqueDynamic(this, &ATankAIController::OnPossessedTankDeath);
-		PossessedTank->GetHealthComponent()->IsAlive = false;
 	}
 }
 

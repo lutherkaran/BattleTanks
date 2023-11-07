@@ -14,6 +14,8 @@ class BATTLETANKS_API UHealthComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:
+	UHealthComponent();
+	float CurrentHealth;
 
 	UFUNCTION()
 		void TakeDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser);
@@ -21,10 +23,7 @@ public:
 
 	// Sets default values for this component's properties
 	UPROPERTY(EditDefaultsOnly, Category = "HealthComponent")
-		float MaxHealth = 100;
-
-	UPROPERTY(VisibleAnywhere, Category = "HealthComponent")
-		float CurrentHealth;
+		float Health = 100;
 
 	UPROPERTY(VisibleAnywhere, Category = "HealthComponent")
 		bool IsAlive;
@@ -32,12 +31,12 @@ public:
 	UFUNCTION(BlueprintPure, Category = "HealthComponent")
 		float GetHealthPercent() const;
 
-	UHealthComponent();
 	FORCEINLINE float GetCurrentHealth() const { return CurrentHealth; }
-	FORCEINLINE float GetMaxHealth() const { return MaxHealth; }
+	FORCEINLINE float GetMaxHealth() const { return Health; }
 	FORCEINLINE bool IsPlayerAlive() const { return IsAlive; }
 
 	virtual void BeginPlay() override;
 
 	void DealDamage(float Damage);
+	bool Initiailize();
 };

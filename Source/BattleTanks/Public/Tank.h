@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "HealthComponent.h"
 #include "Tank.generated.h"
 
 //DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
@@ -24,5 +23,4 @@ public:
 private:
 	// Sets default values for this pawn's properties
 	ATank();
-	virtual void BeginPlay() override;
 };
